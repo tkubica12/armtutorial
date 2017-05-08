@@ -1,0 +1,100 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "nazvy": {
+            "type": "array",
+            "metadata": {
+                "description": "Nazev IP adresy"
+            }
+        },
+        "prostredi": {
+            "type": "string",
+            "defaultValue": "PROD",
+            "allowedValues": [
+                "PROD",
+                "QA",
+                "TEST",
+                "DEV"
+            ],
+            "metadata": {
+                "description": "Prostredi, ve kterem bude IP adresa pouzita"
+            }
+        }
+    },
+    "variables": {
+        "umisteni": "[resourceGroup().location]",
+        "vnet": "mujNet",
+        "vnetPrefix": "10.0.0.0/16",
+        "subnetPrefix": "10.0.0.0/24"
+    },
+    "resources": [
+        {
+            "apiVersion": "2015-01-01",
+            "name": "linkedTemplate",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri" : "https://www.contoso.com/AzureTemplates/newStorageAccount.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "vnet": {
+                        "value": "[variables('vnet')]"
+                    },
+                    "vnetPrefix": {
+                        "value": "[variables('vnetPrefix')]"
+                    },
+                    "subnetPrefix": {
+                        "value": "[variables('subnetPrefix')]"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "copy": {
+                "name": "IPsmycka",
+                "count": "[length(parameters('nazvy'))]"
+            },
+            "name": "[concat(parameters('nazvy')[copyIndex()],'-',parameters('prostredi'))]",
+            "apiVersion": "2016-03-30",
+            "location": "[variables('umisteni')]",
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic"
+            }
+        },
+        {
+            "apiVersion": "2016-03-30",
+            "type": "Microsoft.Network/networkInterfaces",
+            "copy": {
+                "name": "NICsmycka",
+                "count": "[length(parameters('nazvy'))]"
+            },
+            "name": "[concat(parameters('nazvy')[copyIndex()],'-',parameters('prostredi'),'-NIC')]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/virtualNetworks/', variables('vnet'))]",
+                "IPsmycka"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses/', concat(parameters('nazvy')[copyIndex()],'-',parameters('prostredi')))]"
+                            },
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks/', variables('vnet')),'/subnets/',variables('vnet'),'Sub')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "outputs": {}
+}
