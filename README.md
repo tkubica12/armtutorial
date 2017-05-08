@@ -25,9 +25,8 @@ az group deployment create --template-file .\demo07.json --parameters "@demo07.p
 ## demo08 - smycka + dependencies
 az group deployment create --template-file .\demo08.json --parameters "@demo08.parameters.json" -g arm --mode Complete
 
-## demo09 - output
-az group deployment create --template-file .\demo09.json --parameters "@demo09.parameters.json" -g arm --mode Complete
-
+## demo09 - nested sablony
+az group deployment create --template-file .\demo09main.json --parameters "@demo09.parameters.json" -g arm --mode Complete
 
 ## troubleshooting
 az group deployment operation list --name demo08  --resource-group arm

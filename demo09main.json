@@ -23,7 +23,6 @@
         }
     },
     "variables": {
-        "umisteni": "[resourceGroup().location]",
         "vnet": "mujNet",
         "vnetPrefix": "10.0.0.0/16",
         "subnetPrefix": "10.0.0.0/24"
@@ -31,12 +30,12 @@
     "resources": [
         {
             "apiVersion": "2015-01-01",
-            "name": "linkedTemplate",
+            "name": "sdilenaSit",
             "type": "Microsoft.Resources/deployments",
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri" : "https://github.com/tkubica12/armtutorial/raw/master/demo09shared.json",
+                    "uri" : "https://raw.githubusercontent.com/tkubica12/armtutorial/master/demo09shared.json",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
@@ -53,46 +52,32 @@
             }
         },
         {
-            "type": "Microsoft.Network/publicIPAddresses",
-            "copy": {
-                "name": "IPsmycka",
-                "count": "[length(parameters('nazvy'))]"
-            },
-            "name": "[concat(parameters('nazvy')[copyIndex()],'-',parameters('prostredi'))]",
-            "apiVersion": "2016-03-30",
-            "location": "[variables('umisteni')]",
+            "apiVersion": "2015-01-01",
+            "name": "ip",
+            "type": "Microsoft.Resources/deployments",
             "properties": {
-                "publicIPAllocationMethod": "Dynamic"
-            }
-        },
-        {
-            "apiVersion": "2016-03-30",
-            "type": "Microsoft.Network/networkInterfaces",
-            "copy": {
-                "name": "NICsmycka",
-                "count": "[length(parameters('nazvy'))]"
-            },
-            "name": "[concat(parameters('nazvy')[copyIndex()],'-',parameters('prostredi'),'-NIC')]",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[concat('Microsoft.Network/virtualNetworks/', variables('vnet'))]",
-                "IPsmycka"
-            ],
-            "properties": {
-                "ipConfigurations": [
-                    {
-                        "name": "ipconfig1",
-                        "properties": {
-                            "publicIPAddress": {
-                                "id": "[resourceId('Microsoft.Network/publicIPAddresses/', concat(parameters('nazvy')[copyIndex()],'-',parameters('prostredi')))]"
-                            },
-                            "privateIPAllocationMethod": "Dynamic",
-                            "subnet": {
-                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks/', variables('vnet')),'/subnets/',variables('vnet'),'Sub')]"
-                            }
-                        }
-                    }
-                ]
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri" : "https://raw.githubusercontent.com/tkubica12/armtutorial/master/demo09ip.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "vnet": {
+                        "value": "[variables('vnet')]"
+                    },
+                    "vnetPrefix": {
+                        "value": "[variables('vnetPrefix')]"
+                    },
+                    "subnetPrefix": {
+                        "value": "[variables('subnetPrefix')]"
+                    },
+                    "nazvy": {
+                        "value": "[parameters('nazvy')]"
+                    },
+                    "prostedi": {
+                        "value": "[parameters('prostredi')]"
+                    }                   
+                }
             }
         }
     ],
