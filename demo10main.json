@@ -40,14 +40,14 @@
         },
         {
             "apiVersion": "2015-01-01",
-            "name": "ip",
+            "name": "[concat('ip',copyIndex(1))]",
             "type": "Microsoft.Resources/deployments",
             "dependsOn": [
                     "Microsoft.Resources/deployments/sdilenaSit"
             ],
             "copy": {
                 "name": "prostrediSmycka",
-                "count": "[length(parameters('adresy'))]"
+                "count": "[length(parameters('adresy').seznam)]"
             },
             "properties": {
                 "mode": "Incremental",
@@ -66,10 +66,10 @@
                         "value": "[variables('subnetPrefix')]"
                     },
                     "nazvy": {
-                        "value": "[parameters('adresy')[copyIndex()].nazvy]"
+                        "value": "[parameters('adresy').seznam[copyIndex()].nazvy]"
                     },
                     "prostredi": {
-                        "value": "[parameters('adresy')[copyIndex()].prostredi]"
+                        "value": "[parameters('adresy').seznam[copyIndex()].prostredi]"
                     }                   
                 }
             }

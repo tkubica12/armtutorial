@@ -3,29 +3,31 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "adresy": {
-      "value": [
-        {
-          "prostredi": "TEST",
-          "nazvy": [
-            "PrvniIP",
-            "DruhaIP",
-            "TretiIP"
-          ]
-        },
-        {
-          "prostredi": "DEV",
-          "nazvy": [
-            "PrvniIP",
-            "DruhaIP"
-          ]
-        },
-        {
-          "prostredi": "QA",
-          "nazvy": [
-            "PrvniIP"
-          ]
-        }
-      ]
+      "value": {
+        "seznam": [
+          {
+            "prostredi": "TEST",
+            "nazvy": [
+              "PrvniIP",
+              "DruhaIP",
+              "TretiIP"
+            ]
+          },
+          {
+            "prostredi": "DEV",
+            "nazvy": [
+              "PrvniIP",
+              "DruhaIP"
+            ]
+          },
+          {
+            "prostredi": "QA",
+            "nazvy": [
+              "PrvniIP"
+            ]
+          }
+        ]
+      }
     }
   }
 }
