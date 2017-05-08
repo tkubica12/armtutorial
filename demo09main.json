@@ -36,7 +36,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri" : "https://www.contoso.com/AzureTemplates/newStorageAccount.json",
+                    "uri" : "https://github.com/tkubica12/armtutorial/raw/master/demo09shared.json",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
