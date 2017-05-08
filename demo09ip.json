@@ -45,7 +45,6 @@
             "name": "[concat(parameters('nazvy')[copyIndex()],'-',parameters('prostredi'),'-NIC')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "Microsoft.Resources/deployments/sdilenaSit",
                 "IPsmycka"
             ],
             "properties": {
