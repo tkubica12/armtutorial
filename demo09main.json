@@ -74,7 +74,7 @@
                     "nazvy": {
                         "value": "[parameters('nazvy')]"
                     },
-                    "prostedi": {
+                    "prostredi": {
                         "value": "[parameters('prostredi')]"
                     }                   
                 }
