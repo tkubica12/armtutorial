@@ -1,0 +1,79 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "adresy": {
+            "type": "object",
+            "metadata": {
+                "description": "Prostredi a adresy"
+            }
+        }
+    },
+    "variables": {
+        "vnet": "mujNet",
+        "vnetPrefix": "10.0.0.0/16",
+        "subnetPrefix": "10.0.0.0/24"
+    },
+    "resources": [
+        {
+            "apiVersion": "2015-01-01",
+            "name": "sdilenaSit",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri" : "https://raw.githubusercontent.com/tkubica12/armtutorial/master/demo10shared.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "vnet": {
+                        "value": "[variables('vnet')]"
+                    },
+                    "vnetPrefix": {
+                        "value": "[variables('vnetPrefix')]"
+                    },
+                    "subnetPrefix": {
+                        "value": "[variables('subnetPrefix')]"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2015-01-01",
+            "name": "ip",
+            "type": "Microsoft.Resources/deployments",
+            "dependsOn": [
+                    "Microsoft.Resources/deployments/sdilenaSit"
+            ],
+            "copy": {
+                "name": "prostrediSmycka",
+                "count": "[length(parameters('adresy'))]"
+            },
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri" : "https://raw.githubusercontent.com/tkubica12/armtutorial/master/demo10ip.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "vnet": {
+                        "value": "[variables('vnet')]"
+                    },
+                    "vnetPrefix": {
+                        "value": "[variables('vnetPrefix')]"
+                    },
+                    "subnetPrefix": {
+                        "value": "[variables('subnetPrefix')]"
+                    },
+                    "nazvy": {
+                        "value": "[parameters('adresy')[copyIndex()].nazvy]"
+                    },
+                    "prostredi": {
+                        "value": "[parameters('adresy')[copyIndex()].prostredi]"
+                    }                   
+                }
+            }
+        }
+    ],
+    "outputs": {}
+}
