@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+      "nazev": {
+          "type": "string",
+          "metadata": {
+              "description": "Nazev IP adresy"
+          }
+      },
+      "prostredi": {
+          "type": "string",
+          "defaultValue": "PROD",
+          "allowedValues": [
+              "PROD", "QA", "TEST", "DEV"
+          ],
+          "metadata": {
+              "description": "Prostredi, ve kterem bude IP adresa pouzita"
+          }
+      }
+   },
+  "variables": {
+      "umisteni": "[resourceGroup().location]"
+   },
+  "resources": 
+  [
+            {
+                "type": "Microsoft.Network/publicIPAddresses",
+                "name": "[concat(parameters('nazev'),'-',parameters('prostredi'))]",
+                "apiVersion": "2016-03-30",
+                "location": "[variables('umisteni')]",
+                "properties": {
+                    "publicIPAllocationMethod": "Dynamic"
+                }
+            }
+   ],
+  "outputs": { }
+}
