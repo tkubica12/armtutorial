@@ -5,7 +5,7 @@
         "names": {
             "type": "array"
         },
-        "enviroment": {
+        "environment": {
             "type": "string"
         },
         "vnet": {
