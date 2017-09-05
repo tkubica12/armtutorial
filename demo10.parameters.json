@@ -2,28 +2,28 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "adresy": {
+    "IPaddresses": {
       "value": {
-        "seznam": [
+        "myIPs": [
           {
-            "prostredi": "TEST",
-            "nazvy": [
-              "PrvniIP",
-              "DruhaIP",
-              "TretiIP"
+            "environment": "TEST",
+            "names": [
+              "firstIP",
+              "secondIP",
+              "thirdIP"
             ]
           },
           {
-            "prostredi": "DEV",
-            "nazvy": [
-              "PrvniIP",
-              "DruhaIP"
+            "environment": "DEV",
+            "names": [
+              "firstIP",
+              "secondIP"
             ]
           },
           {
-            "prostredi": "QA",
+            "environment": "QA",
             "nazvy": [
-              "PrvniIP"
+              "firstIP"
             ]
           }
         ]

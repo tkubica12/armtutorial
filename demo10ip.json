@@ -2,10 +2,10 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "nazvy": {
+        "names": {
             "type": "array"
         },
-        "prostredi": {
+        "enviroment": {
             "type": "string"
         },
         "vnet": {
@@ -19,18 +19,18 @@
         }
     },
     "variables": {
-        "umisteni": "[resourceGroup().location]"
+        "whereVariable": "[resourceGroup().location]"
     },
     "resources": [
         {
             "type": "Microsoft.Network/publicIPAddresses",
             "copy": {
-                "name": "IPsmycka",
-                "count": "[length(parameters('nazvy'))]"
+                "name": "multipleIPs",
+                "count": "[length(parameters('names'))]"
             },
-            "name": "[concat(parameters('nazvy')[copyIndex()],'-',parameters('prostredi'))]",
+            "name": "[concat(parameters('names')[copyIndex()],'-',parameters('environment'))]",
             "apiVersion": "2016-03-30",
-            "location": "[variables('umisteni')]",
+            "location": "[variables('whereVariable')]",
             "properties": {
                 "publicIPAllocationMethod": "Dynamic"
             }
@@ -39,13 +39,13 @@
             "apiVersion": "2016-03-30",
             "type": "Microsoft.Network/networkInterfaces",
             "copy": {
-                "name": "NICsmycka",
-                "count": "[length(parameters('nazvy'))]"
+                "name": "multipleNICs",
+                "count": "[length(parameters('names'))]"
             },
-            "name": "[concat(parameters('nazvy')[copyIndex()],'-',parameters('prostredi'),'-NIC')]",
+            "name": "[concat(parameters('names')[copyIndex()],'-',parameters('environment'),'-NIC')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "IPsmycka"
+                "multipleIPs"
             ],
             "properties": {
                 "ipConfigurations": [
@@ -53,7 +53,7 @@
                         "name": "ipconfig1",
                         "properties": {
                             "publicIPAddress": {
-                                "id": "[resourceId('Microsoft.Network/publicIPAddresses/', concat(parameters('nazvy')[copyIndex()],'-',parameters('prostredi')))]"
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses/', concat(parameters('names')[copyIndex()],'-',parameters('environments')))]"
                             },
                             "privateIPAllocationMethod": "Dynamic",
                             "subnet": {

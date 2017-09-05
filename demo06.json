@@ -2,20 +2,20 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-      "nazev": {
+      "name": {
           "type": "string",
           "metadata": {
-              "description": "Nazev IP adresy"
+              "description": "IP address name"
           }
       },
-      "prostredi": {
+      "environment": {
           "type": "string",
           "defaultValue": "PROD",
           "allowedValues": [
               "PROD", "QA", "TEST", "DEV"
           ],
           "metadata": {
-              "description": "Prostredi, ve kterem bude IP adresa pouzita"
+              "description": "Environment in which IP address will be used"
           }
       },
       "pocet": {
@@ -27,19 +27,19 @@
       }
    },
   "variables": {
-      "umisteni": "[resourceGroup().location]"
+      "whereVariable": "[resourceGroup().location]"
    },
   "resources": 
   [
             {
                 "type": "Microsoft.Network/publicIPAddresses",
                 "copy": {
-                    "name": "IPsmycka",
-                    "count": "[parameters('pocet')]"
+                    "name": "multipleIPs",
+                    "count": "[parameters('count')]"
                 },
-                "name": "[concat(parameters('nazev'),'-',parameters('prostredi'),'-',copyIndex(1))]",
+                "name": "[concat(parameters('name'),'-',parameters('environment'),'-',copyIndex(1))]",
                 "apiVersion": "2016-03-30",
-                "location": "[variables('umisteni')]",
+                "location": "[variables('whereVariable')]",
                 "properties": {
                     "publicIPAllocationMethod": "Dynamic"
                 }

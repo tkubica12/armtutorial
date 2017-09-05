@@ -3,15 +3,15 @@
   "contentVersion": "1.0.0.0",
   "parameters": { },
   "variables": {
-      "umisteni": "West Europe"
+      "whereVariable": "West Europe"
    },
   "resources": 
   [
             {
                 "type": "Microsoft.Network/publicIPAddresses",
-                "name": "mojeIP2",
+                "name": "myIP2",
                 "apiVersion": "2016-03-30",
-                "location": "[variables('umisteni')]",
+                "location": "[variables('whereVariable')]",
                 "properties": {
                     "publicIPAllocationMethod": "Dynamic"
                 }

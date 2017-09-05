@@ -2,25 +2,25 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-      "nazvy": {
+      "names": {
           "type": "array",
           "metadata": {
-              "description": "Nazev IP adresy"
+              "description": "IP address name"
           }
       },
-      "prostredi": {
+      "environment": {
           "type": "string",
           "defaultValue": "PROD",
           "allowedValues": [
               "PROD", "QA", "TEST", "DEV"
           ],
           "metadata": {
-              "description": "Prostredi, ve kterem bude IP adresa pouzita"
+              "description": "Environment in which IP address will be used"
           }
       }
    },
   "variables": {
-      "umisteni": "[resourceGroup().location]",
+      "whereVariable": "[resourceGroup().location]",
       "vnet": "mujNet",
       "vnetPrefix": "10.0.0.0/16",
       "subnetPrefix": "10.0.0.0/24"
@@ -31,7 +31,7 @@
                 "apiVersion": "2016-03-30",
                 "type": "Microsoft.Network/virtualNetworks",
                 "name": "[variables('vnet')]",
-                "location": "[variables('umisteni')]",
+                "location": "[variables('whereVariable')]",
                 "properties": {
                     "addressSpace": {
                     "addressPrefixes": [
@@ -51,12 +51,12 @@
             {
                 "type": "Microsoft.Network/publicIPAddresses",
                 "copy": {
-                    "name": "IPsmycka",
+                    "name": "multipleIPs",
                     "count": "[length(parameters('nazvy'))]"
                 },
-                "name": "[concat(parameters('nazvy')[copyIndex()],'-',parameters('prostredi'))]",
+                "name": "[concat(parameters('names')[copyIndex()],'-',parameters('environment'))]",
                 "apiVersion": "2016-03-30",
-                "location": "[variables('umisteni')]",
+                "location": "[variables('whereVariable')]",
                 "properties": {
                     "publicIPAllocationMethod": "Dynamic"
                 }
@@ -65,14 +65,14 @@
                 "apiVersion": "2016-03-30",
                 "type": "Microsoft.Network/networkInterfaces",
                 "copy": {
-                    "name": "NICsmycka",
-                    "count": "[length(parameters('nazvy'))]"
+                    "name": "multipleNICs",
+                    "count": "[length(parameters('names'))]"
                 },
-                "name": "[concat(parameters('nazvy')[copyIndex()],'-',parameters('prostredi'),'-NIC')]",
+                "name": "[concat(parameters('names')[copyIndex()],'-',parameters('environment'),'-NIC')]",
                 "location": "[resourceGroup().location]",
                 "dependsOn": [
                     "[concat('Microsoft.Network/virtualNetworks/', variables('vnet'))]",
-                    "IPsmycka"
+                    "multipleIPs"
                 ],
                 "properties": {
                     "ipConfigurations": [
@@ -80,7 +80,7 @@
                         "name": "ipconfig1",
                         "properties": {
                         "publicIPAddress": {
-                            "id": "[resourceId('Microsoft.Network/publicIPAddresses/', concat(parameters('nazvy')[copyIndex()],'-',parameters('prostredi')))]"
+                            "id": "[resourceId('Microsoft.Network/publicIPAddresses/', concat(parameters('names')[copyIndex()],'-',parameters('environment')))]"
                         },
                         "privateIPAllocationMethod": "Dynamic",
                         "subnet": {

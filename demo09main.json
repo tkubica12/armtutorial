@@ -2,13 +2,13 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "nazvy": {
+        "names": {
             "type": "array",
             "metadata": {
-                "description": "Nazev IP adresy"
+                "description": "IP address name"
             }
         },
-        "prostredi": {
+        "environment": {
             "type": "string",
             "defaultValue": "PROD",
             "allowedValues": [
@@ -18,7 +18,7 @@
                 "DEV"
             ],
             "metadata": {
-                "description": "Prostredi, ve kterem bude IP adresa pouzita"
+                "description": "Environment in which IP address will be used"
             }
         }
     },
@@ -56,7 +56,7 @@
             "name": "ip",
             "type": "Microsoft.Resources/deployments",
             "dependsOn": [
-                    "Microsoft.Resources/deployments/sdilenaSit"
+                    "Microsoft.Resources/deployments/[variables('vnet')]"
             ],
             "properties": {
                 "mode": "Incremental",
