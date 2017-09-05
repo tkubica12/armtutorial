@@ -18,11 +18,11 @@
               "description": "Environment in which IP address will be used"
           }
       },
-      "pocet": {
+      "count": {
           "type": "int",
           "defaultValue": 1,
           "metadata": {
-              "description": "Pocet IP adres k vytvoreni"
+              "description": "Number of IP addresses"
           }
       }
    },

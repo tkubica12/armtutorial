@@ -74,11 +74,11 @@
                     "subnetPrefix": {
                         "value": "[variables('subnetPrefix')]"
                     },
-                    "nazvy": {
-                        "value": "[parameters('nazvy')]"
+                    "names": {
+                        "value": "[parameters('names')]"
                     },
-                    "prostredi": {
-                        "value": "[parameters('prostredi')]"
+                    "environment": {
+                        "value": "[parameters('environment')]"
                     }                   
                 }
             }

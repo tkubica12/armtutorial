@@ -52,7 +52,7 @@
                 "type": "Microsoft.Network/publicIPAddresses",
                 "copy": {
                     "name": "multipleIPs",
-                    "count": "[length(parameters('nazvy'))]"
+                    "count": "[length(parameters('names'))]"
                 },
                 "name": "[concat(parameters('names')[copyIndex()],'-',parameters('environment'))]",
                 "apiVersion": "2016-03-30",
