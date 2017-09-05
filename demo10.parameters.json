@@ -22,7 +22,7 @@
           },
           {
             "environment": "QA",
-            "nazvy": [
+            "names": [
               "firstIP"
             ]
           }

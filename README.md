@@ -31,7 +31,7 @@ az group deployment create --template-file demo08.json --parameters "@demo08.par
 az group deployment create --template-file demo09main.json --parameters "@demo09.parameters.json" -g arm 
 
 ## demo10 - nested templates in a loop
-az group deployment create --template-file .\demo10main.json --parameters "@demo10.parameters.json" -g arm 
+az group deployment create --template-file demo10main.json --parameters "@demo10.parameters.json" -g arm 
 
 
 ## troubleshooting

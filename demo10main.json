@@ -17,7 +17,7 @@
     "resources": [
         {
             "apiVersion": "2015-01-01",
-            "name": "sharedDeploymnet",
+            "name": "mynetwork",
             "type": "Microsoft.Resources/deployments",
             "properties": {
                 "mode": "Incremental",
@@ -43,7 +43,7 @@
             "name": "[concat('ip',copyIndex(1))]",
             "type": "Microsoft.Resources/deployments",
             "dependsOn": [
-                    "Microsoft.Resources/deployments/sharedDeployment"
+                    "Microsoft.Resources/deployments/mynetwork"
             ],
             "copy": {
                 "name": "environments",
@@ -65,11 +65,11 @@
                     "subnetPrefix": {
                         "value": "[variables('subnetPrefix')]"
                     },
-                    "nazvy": {
-                        "value": "[parameters('adresy').seznam[copyIndex()].nazvy]"
+                    "names": {
+                        "value": "[parameters('IPaddresses').myIPs[copyIndex()].names]"
                     },
-                    "prostredi": {
-                        "value": "[parameters('adresy').seznam[copyIndex()].prostredi]"
+                    "environment": {
+                        "value": "[parameters('IPaddresses').myIPs[copyIndex()].environment]"
                     }                   
                 }
             }

@@ -53,7 +53,7 @@
                         "name": "ipconfig1",
                         "properties": {
                             "publicIPAddress": {
-                                "id": "[resourceId('Microsoft.Network/publicIPAddresses/', concat(parameters('names')[copyIndex()],'-',parameters('environments')))]"
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses/', concat(parameters('names')[copyIndex()],'-',parameters('environment')))]"
                             },
                             "privateIPAllocationMethod": "Dynamic",
                             "subnet": {
