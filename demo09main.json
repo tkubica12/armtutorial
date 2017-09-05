@@ -30,7 +30,7 @@
     "resources": [
         {
             "apiVersion": "2015-01-01",
-            "name": "sdilenaSit",
+            "name": "mynetwork",
             "type": "Microsoft.Resources/deployments",
             "properties": {
                 "mode": "Incremental",
@@ -56,7 +56,7 @@
             "name": "ip",
             "type": "Microsoft.Resources/deployments",
             "dependsOn": [
-                    "Microsoft.Resources/deployments/[variables('vnet')]"
+                    "Microsoft.Resources/deployments/mynetwork]"
             ],
             "properties": {
                 "mode": "Incremental",
