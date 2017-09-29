@@ -54,8 +54,9 @@ az group deployment create --template-file demo10main.json --parameters "@demo10
 ```
 
 ## troubleshooting
+```
 az group deployment operation list --name demo08  --resource-group arm
-
+```
 
 Tomas Kubica
 
