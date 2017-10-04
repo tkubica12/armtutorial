@@ -1,5 +1,17 @@
 # Azure: ARM templates tutorial
-
+- [Azure: ARM templates tutorial](#azure-arm-templates-tutorial)
+    - [demo01 - simple IP address](#demo01---simple-ip-address)
+    - [demo02 - change IP address name and demonstrate difference between increment and complete deployment](#demo02---change-ip-address-name-and-demonstrate-difference-between-increment-and-complete-deployment)
+    - [demo03 - variables](#demo03---variables)
+    - [demo04 - variables, getting location from resource group default](#demo04---variables-getting-location-from-resource-group-default)
+    - [demo05 - parameters](#demo05---parameters)
+    - [demo06 - loop](#demo06---loop)
+    - [demo07 - loop over array](#demo07---loop-over-array)
+    - [demo08 - enhanced loop](#demo08---enhanced-loop)
+    - [demo09 - nested templates](#demo09---nested-templates)
+    - [demo10 - nested templates in a loop](#demo10---nested-templates-in-a-loop)
+    - [troubleshooting](#troubleshooting)
+    
 There a lot of great examples of ARM templates, but most of them try to demonstrate something useful like creating VMs. For purpose of showing ARM syntax and capabilities I needed something that shows power of ARM constructs with something that gets created very fast. This is set of examples to play with IP addresses, which is quick to create and good to start learning ARM itself. Note that none of those examples are complete solution. Please look for other templates on GitHub that would show comprehensive infrastructure being created.
 
 ## demo01 - simple IP address
